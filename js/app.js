@@ -1,11 +1,17 @@
 $(document).ready(function(){
   $(".ryu").mouseenter(function(){
-    $(".ryu-still").hide();
-    $(".ryu-ready").show();
+    if (hold == false) {
+      $(".ryu-still").hide();
+      $(".ryu-ready").show();
+    }
+    stance = "ready";
   })
   .mouseleave(function(){
-    $(".ryu-ready").hide();
-    $(".ryu-still").show();
+    if (hold == false) {
+      $(".ryu-ready").hide();
+      $(".ryu-still").show();
+    }
+    stance = "still";
   })
   .mousedown(function(){
     playHadouken();
@@ -24,7 +30,37 @@ $(document).ready(function(){
     $(".ryu-ready").show();
   });
 
+  $("body").on("keydown", function(e){
+    if (e.which == 88){
+      hold = true;
+      if (stance == "still"){
+      $(".ryu-cool").show();
+      $(".ryu-still").hide();
+      }
+      else {
+        $(".ryu-cool").show();
+        $(".ryu-ready").hide();
+      }
+    }
+  });
+  $("body").on("keyup", function(e){
+    if (e.which == 88){
+      hold = false;
+      if (stance == "still"){
+        $(".ryu-cool").hide();
+        $(".ryu-still").show();
+      }
+      else {
+        $(".ryu-cool").hide();
+        $(".ryu-ready").show();
+      }
+    }
+  });
 });
+
+var stance = "still";
+var hold = false;
+
 
 function playHadouken(){
   $("#hadouken-sound")[0].volume = 0.5;
